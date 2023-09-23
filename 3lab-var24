@@ -1,0 +1,46 @@
+"""""
+PI-201
+SHYNKARENKO O.M.
+Variant 24
+"""""
+import csv
+import datetime
+from random import randint
+
+path_file = "WBTC-USD.csv"
+#для точності вимірів
+accuracy = 5
+#для запису розмірності даних
+size = 0
+date_arr = []
+volume_arr = []
+close_arr = []
+open_arr = []
+low_arr = []
+high_arr = []
+with open(path_file) as file:
+    reader = csv.reader(file)
+    next(reader)
+    for date, volume_t, close_t, open, low, high, adj_close in reader:
+        date_arr.append(datetime.datetime.strptime(date, "%Y-%m-%d").date())
+        volume_arr.append(float(volume_t))
+        close_arr.append(float(close_t))
+        low_arr.append(float(low))
+        open_arr.append(float(open))
+        high_arr.append(float(high))
+        size += 1
+average_arr = []
+for volume_t, close_t in zip(volume_arr, close_arr):
+    average_arr.append((volume_t + close_t) / 2)
+for num in range(3):
+    random_x = randint(0, size - 1)
+    print(f"{random_x}){average_arr[random_x]:.{accuracy}f} ---> "
+          f"V:{volume_arr[random_x]:.{accuracy}f} - C:{close_arr[random_x]:.{accuracy}f}")
+
+
+def average(obj):
+    return sum(obj) / len(obj)
+
+
+print(f"Volume avg: {average(volume_arr):.{accuracy}f}")
+print(f"Close avg: {average(close_arr):.{accuracy}f}")

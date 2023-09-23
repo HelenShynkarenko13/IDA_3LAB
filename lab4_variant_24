@@ -1,0 +1,54 @@
+"""
+Shynkarenko O.M.
+PI-201
+LAB_4_variant_24
+"""
+from numpy import array, average
+import csv
+import datetime
+from random import randint
+import time
+timer=time.time()
+for i in range(5):
+    time.sleep(i)
+    #скільки витрачено часу на код
+print(f"Time working: {time.time()-timer}")
+path_file = "WBTC-USD.csv"
+#для точності вимірів
+accuracy = 5
+#для запису розмірності даних
+size = 0
+date_arr = []
+volume_arr = []
+close_arr = []
+open_arr = []
+low_arr = []
+high_arr = []
+with open(path_file) as file:
+    reader = csv.reader(file)
+    next(reader)
+    for date, volume_t, close_t, open, low, high, adj_close in reader:
+        date_arr.append(datetime.datetime.strptime(date, "%Y-%m-%d").date())
+        volume_arr.append(float(volume_t))
+        close_arr.append(float(close_t))
+        low_arr.append(float(low))
+        open_arr.append(float(open))
+        high_arr.append(float(high))
+        size += 1
+
+date_arr = array(date_arr)
+volume_arr = array(volume_arr)
+close_arr = array (close_arr)
+open_arr = array (open_arr)
+low_arr = array (low_arr)
+high_arr = array(high_arr)
+average_arr=(volume_arr+close_arr)/2
+for num in range(3):
+    random_x = randint(0, size - 1)
+    print(f"{random_x}){average_arr[random_x]:.{accuracy}f} ---> "
+          f"V:{volume_arr[random_x]:.{accuracy}f} - C:{close_arr[random_x]:.{accuracy}f}")
+print(f"Volume avg: {average(volume_arr):.{accuracy}f}")
+print(f"Close avg: {average(close_arr):.{accuracy}f}")
+
+
+

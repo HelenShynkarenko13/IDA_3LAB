@@ -8,11 +8,8 @@ import csv
 import datetime
 from random import randint
 import time
+# скільки витрачено часу на код
 timer=time.time()
-for i in range(5):
-    time.sleep(i)
-    #скільки витрачено часу на код
-print(f"Time working: {time.time()-timer}")
 path_file = "WBTC-USD.csv"
 #для точності вимірів
 accuracy = 5
@@ -49,6 +46,4 @@ for num in range(3):
           f"V:{volume_arr[random_x]:.{accuracy}f} - C:{close_arr[random_x]:.{accuracy}f}")
 print(f"Volume avg: {average(volume_arr):.{accuracy}f}")
 print(f"Close avg: {average(close_arr):.{accuracy}f}")
-
-
-
+print(f"Time working: {time.time()-timer}")

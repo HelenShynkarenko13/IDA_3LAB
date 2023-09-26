@@ -1,0 +1,35 @@
+"""
+PI-201
+Shynkarenko O.M.
+Lab_5 Variant_24
+"""
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('WBTC-USD.csv')
+volume_class = []
+volume_mean = df.Volume.mean()
+for volume in df['Volume']:
+    if volume + volume * 0.2 > volume_mean > volume - volume * 0.2:
+        volume_class.append('Avg_V')
+    elif volume - volume * 0.2 < volume_mean:
+        volume_class.append('Low_V')
+    else:
+        volume_class.append('High_V')
+df['volume_class'] = volume_class
+fig = plt.figure(figsize=(12, 6))
+vol = fig.add_subplot(121)
+high = fig.add_subplot(122)
+vol.hist(df.Volume, bins=80)
+vol.set_xlabel('Volume')
+vol.set_title("Histogram of Volume")
+high.hist(df.High, bins=80)
+high.set_xlabel('High')
+high.set_title("Histogram of High")
+plt.show()
+
+sns.pointplot(data=df, x="High", y="volume_class")
+plt.show()
+
+sns.jointplot(x="High", y="Volume", data=df, kind="reg", fit_reg=True)
+plt.show()

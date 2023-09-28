@@ -1,0 +1,39 @@
+"""
+PI-201 Shynkarenko O.M.
+Lab_6_Variant_24
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
+
+# Задані параметри
+n = 10000
+a = np.array([0, -1])
+R = np.array([[10, -3], [-3, 1]])
+
+# Генеруємо випадкові дані
+data = np.random.multivariate_normal(a, R, n)
+x = data[:, 0]
+y = data[:, 1]
+
+#Візуалізація даних
+plt.scatter(x, y, alpha=0.5)
+plt.xlabel('Ознака x')
+plt.ylabel('Ознака y')
+plt.title('Візуалізація даних')
+plt.grid(True)
+plt.show()
+# Обчислюємо статистичну оцінку кореляції Пірсона
+corr_coefficient, _ = pearsonr(x, y)
+print(f"Спостережена кореляція: {corr_coefficient}")
+# Отримуємо реальне значення кореляції з матриці R
+real_corr_coefficient = R[0, 1] / np.sqrt(R[0, 0] * R[1, 1])
+print(f"Реальна кореляція: {real_corr_coefficient}")
+
+#Перевірка статистичної гіпотези про некорельованість
+alpha = 0.05
+p_value = 1 - abs(corr_coefficient)
+if p_value < alpha:
+    print(f'p-value: {p_value:.4f}, Гіпотеза про кореляцію відхиляється')
+else:
+    print(f'p-value: {p_value:.4f}, Немає доказів відхилення гіпотези про кореляцію')
